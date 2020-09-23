@@ -22,11 +22,21 @@ const webpackConfig = (env: any): Configuration => ({
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                loader: "ts-loader",
-                options: {
-                    transpileOnly: true,
-                },
-                exclude: /dist/,
+                use: [
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                        },
+                    },
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            babelrc: true,
+                        },
+                    },
+                ],
+                exclude: [/dist/, /node_modules/],
             },
             { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
             {
