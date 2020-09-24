@@ -2,7 +2,9 @@ import * as React from "react";
 import Hero from "../assets/hero.jpg";
 import "../styles/userprompt.scss";
 
-import { Input, Button } from "antd";
+//Components
+import { Input } from "baseui/input";
+import { Button, SHAPE } from "baseui/button";
 
 type MyState = {
     email: string;
@@ -11,8 +13,8 @@ type MyState = {
 type MyProps = unknown;
 
 class UserPrompt extends React.Component<MyProps, MyState> {
-    private emailRef: HTMLInputElement;
-    private passRef: HTMLInputElement;
+    private emailRef = React.createRef<HTMLInputElement>();
+    private passRef = React.createRef<HTMLInputElement>();
 
     constructor(props: unknown) {
         super(props);
@@ -23,13 +25,15 @@ class UserPrompt extends React.Component<MyProps, MyState> {
         password: "",
     };
     setDetails = (): void => {
-        this.setState({
-            //@ts-expect-error ***Value is defined
-            email: this.emailRef.state.value,
-            //@ts-expect-error ***Value is defined
-            password: this.passRef.state.value,
-        });
-        console.log(this.state);
+        this.setState(
+            {
+                email: this.emailRef.current.value,
+                password: this.passRef.current.value,
+            },
+            () => {
+                console.log(this.state);
+            }
+        );
     };
 
     public render(): JSX.Element {
@@ -41,37 +45,62 @@ class UserPrompt extends React.Component<MyProps, MyState> {
                 <div className="prompts">
                     <p>YOKOSO to KONOHA</p>
                     <div className="input-fields">
-                        <Input
-                            placeholder="Email"
-                            size="large"
-                            ref={(r: HTMLInputElement) => (this.emailRef = r)}
-                            style={{ width: "20em", marginTop: "2em" }}
-                        />
-                        <Input.Password
-                            placeholder="Password"
-                            size="large"
-                            ref={(r: HTMLInputElement) => (this.passRef = r)}
-                            style={{ width: "20em", marginTop: "2em" }}
-                        />
-                        <Button
-                            type="primary"
-                            style={{ width: "10em", marginTop: "2em" }}
-                            shape="round"
-                            size="large"
-                            onClick={() => this.setDetails()}
-                            danger
-                        >
-                            Login{" "}
-                        </Button>
-                        <Button
-                            type="secondary"
+                        <div style={{ margin: "1em 0", width: "100%" }}>
+                            <Input
+                                startEnhancer="@"
+                                placeholder="Email"
+                                inputRef={this.emailRef}
+                                size="large"
+                            />
+                        </div>
+                        <div style={{ margin: "1em 0", width: "100%" }}>
+                            <Input
+                                startEnhancer="?"
+                                type="password"
+                                placeholder="Password"
+                                inputRef={this.passRef}
+                                size="large"
+                            />
+                        </div>
+                        <div
                             style={{
-                                width: "10em",
-                                color: "rgb(73,86,203,0.8)",
-                                marginTop: "2em",
+                                margin: "1em 0",
+                                width: "20em",
+                                height: "5em",
                             }}
-                            shape="round"
+                        >
+                            <Button
+                                size="large"
+                                shape={SHAPE.pill}
+                                onClick={() => this.setDetails()}
+                                overrides={{
+                                    BaseButton: {
+                                        style: () => {
+                                            return {
+                                                width: "100%",
+                                                height: "100%",
+                                                backgroundColor: "#EFB7B7",
+                                            };
+                                        },
+                                    },
+                                }}
+                            >
+                                Log In{" "}
+                            </Button>
+                        </div>
+                        <Button
                             size="large"
+                            shape={SHAPE.pill}
+                            overrides={{
+                                BaseButton: {
+                                    style: () => {
+                                        return {
+                                            backgroundColor:
+                                                "rgba(73, 86, 203, 0.5)",
+                                        };
+                                    },
+                                },
+                            }}
                         >
                             Sign Up{" "}
                         </Button>

@@ -18,10 +18,13 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "plugins": ["react", "@typescript-eslint", "react-hooks"],
+    "plugins": ["react", "@typescript-eslint", "react-hooks", "baseui"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "baseui/deprecated-theme-api": "warn",
+        "baseui/deprecated-component-api": "warn",
+        "baseui/no-deep-imports": "warn"
     },
     "settings": {
         "react": {
