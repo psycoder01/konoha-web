@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import Hero from "../assets/hero.jpg";
 import "../styles/userprompt.scss";
 
@@ -9,17 +9,29 @@ import { apiLogin } from "../api";
 import { Input } from "baseui/input";
 import { Button, SHAPE } from "baseui/button";
 
-const UserPrompt = (): JSX.Element => {
+//store
+import { connect } from "react-redux";
+import { login } from "../store/user/user.actions";
 
+const UserPrompt = ({ setLogin }: typeof actionAsProps): JSX.Element => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passRef = useRef<HTMLInputElement>(null);
 
-    const login = (): void => {
+    const login = async () => {
         const details = {
             email: emailRef.current.value,
             password: passRef.current.value,
         };
-        apiLogin(details);
+        try {
+            const messege = await apiLogin(details);
+            if (messege.error !== null) {
+                console.log(messege.error);
+                return;
+            }
+            setLogin(messege.data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -95,4 +107,13 @@ const UserPrompt = (): JSX.Element => {
     );
 };
 
-export default UserPrompt;
+const actionAsProps = {
+    setLogin: login,
+};
+const stateAsProps = (reducers) => {
+    return {
+        isLogged: reducers.user.isLogged,
+    };
+};
+
+export default connect(stateAsProps, actionAsProps)(UserPrompt);
