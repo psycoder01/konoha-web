@@ -40,7 +40,7 @@ const UserPrompt = ({ setLogin }: typeof actionAsProps): JSX.Element => {
                 <img src={Hero} alt="hero-img" width="100%" height="100%" />
             </div>
             <div className="prompts">
-                <p>YOKOSO to KONOHA</p>
+                <p>Konohagakure</p>
                 <div className="input-fields">
                     <div style={{ margin: "1em 0", width: "100%" }}>
                         <Input
