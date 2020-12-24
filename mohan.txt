@@ -1,2 +1,0 @@
-const a = "mohan"
-console.log("mohan" + a);
